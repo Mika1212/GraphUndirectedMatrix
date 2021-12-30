@@ -59,7 +59,7 @@ void deinitializeGraph(undirectedGraph operatingGraph) {
 }
 
 // Добавление вершины
-int addNode(undirectedGraph operatingGraph) {
+int addVertex(undirectedGraph operatingGraph) {
     int numberOfVertices = operatingGraph->numberOfVertices + 1;
     int **matrix = (int **) realloc(operatingGraph->matrix, numberOfVertices * sizeof(int *));
 
@@ -82,29 +82,20 @@ int addNode(undirectedGraph operatingGraph) {
 
 // Удаление вершины
 void deleteVertex(undirectedGraph operatingGraph, int vertex) {
-    int numberOfVertices = operatingGraph->numberOfVertices - 1;
-    int **matrix = (int **) malloc(numberOfVertices * sizeof(int *));
+    int **matrix = (int **) malloc(operatingGraph->numberOfVertices * sizeof(int *));
     int shift = 0;
 
-    for (int i = 0; i < numberOfVertices; i++) {
-        matrix[i] = (int *) malloc(numberOfVertices * sizeof(int));
+    for (int i = 0; i < operatingGraph->numberOfVertices; i++) {
+        matrix[i] = (int *) malloc(operatingGraph->numberOfVertices * sizeof(int));
     }
 
-    for (int i = 0; i < numberOfVertices; i++) {
-        if (i >= vertex) {
-            shift = 1;
-        }
-
-        for (int j = 0; j < numberOfVertices; j++) {
-            if (j >= vertex) {
-                matrix[i][j] = operatingGraph->matrix[i + shift][j + 1];
-            } else matrix[i][j] = operatingGraph->matrix[i + shift][j];
-        }
+    for (int i = 0; i < operatingGraph->numberOfVertices; i++) {
+        matrix[vertex][i] = 0;
+        matrix[i][vertex] = 0;
     }
 
     deinitializeMatrix(operatingGraph->matrix, operatingGraph->numberOfVertices);
     operatingGraph->matrix = matrix;
-    operatingGraph->numberOfVertices = numberOfVertices;
 }
 
 // Вывод определенного графа в виде матрицы
@@ -140,7 +131,7 @@ int** getMatrix(undirectedGraph operatingGraph) {
 }
 
 int* shortestPath(int startingVertex, int destinationVertex, undirectedGraph graph) {
-    int result[1];
+    int* result = (int*) malloc(graph->numberOfVertices * sizeof(int*));
     printf("%d;", sizeof(result));
     printf("\n");
 
