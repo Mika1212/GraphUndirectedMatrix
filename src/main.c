@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
         sscanf(argv[6], "%d", &startingVertex);
         int endingVertex;
         sscanf(argv[7], "%d", &endingVertex);
-        if (startingVertex < numberOfVertices) {
+        if (startingVertex < numberOfVertices && endingVertex < numberOfVertices) {
             printShortestPath(startingVertex, endingVertex, operatingGraph, outFile);
         } else {
             printf("\nOops, something went wrong with arguments\n");

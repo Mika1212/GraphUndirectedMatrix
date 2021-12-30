@@ -3,7 +3,7 @@
 // Создание графа
 undirectedGraph generateGraph(int numberOfVertices) {
     undirectedGraph operatingGraph;
-    operatingGraph = malloc(numberOfVertices * sizeof(int *));
+    operatingGraph = malloc(sizeof(*operatingGraph));
     operatingGraph->numberOfVertices = numberOfVertices;
     operatingGraph->matrix = (int **) malloc(numberOfVertices * sizeof(int *));
 
@@ -30,6 +30,7 @@ int addEdge(int vertex1, int vertex2, undirectedGraph operatingGraph) {
         printf("\nCouldn't add an edge\n");
         return -1;
     }
+    return 0;
 }
 
 // Удаление ребра
@@ -42,6 +43,7 @@ int deleteEdge(int vertex1, int vertex2, undirectedGraph operatingGraph) {
         printf("\nCouldn't delete an edge\n");
         return -1;
     }
+    return 0;
 }
 
 // Деинициализации матрицы
@@ -74,7 +76,6 @@ int addVertex(undirectedGraph operatingGraph) {
         }
     }
 
-    deinitializeMatrix(operatingGraph->matrix, operatingGraph->numberOfVertices);
     operatingGraph->matrix = matrix;
     operatingGraph->numberOfVertices = numberOfVertices;
     return numberOfVertices;
@@ -123,7 +124,6 @@ int getNumberOfVertices(undirectedGraph operatingGraph) {
 int** getMatrix(undirectedGraph operatingGraph) {
     return operatingGraph->matrix;
 }
-
 
 void printShortestPath(int startingVertex, int destinationVertex, undirectedGraph graph, FILE *outFile) {
     int* result = (int*) malloc(graph->numberOfVertices * sizeof(int*));
@@ -176,4 +176,3 @@ void dfs(int startingVertex, int destinationVertex, undirectedGraph graph, int* 
         }
     }
 }
-
