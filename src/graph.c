@@ -168,9 +168,7 @@ void dfs(int startingVertex, int destinationVertex, undirectedGraph graph, int* 
 
             if (!stop) dfs(i, destinationVertex, graph, journey, result, k + 1);
         }
-    }
-
-    if (startingVertex == destinationVertex) {
+    } else {
         bool change = false;
         for (int i = 0; i < graph->numberOfVertices; i++) {
             if (result[0] == INT_MIN && journey[i] != INT_MIN ||
