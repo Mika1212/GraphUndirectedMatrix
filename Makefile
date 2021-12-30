@@ -13,7 +13,6 @@ clean:
 	$(RM) -f $(MYLIBNAME)
 	$(RM) -f $(MYAPPNAME)
 
-# Параметры компиляции, указанные в задании
 CFLAGS= -std=c11 -pedantic -Wall -O1
 INCLUDES+= -I ./include
 vpath %.h include src
