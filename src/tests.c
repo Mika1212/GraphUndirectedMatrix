@@ -75,7 +75,7 @@ int StartTests() {
     createGraphTest();
     addEdgeTest();
     deleteEdgeTest();
-    addVertexTest();
     deleteVertexTest();
+    addVertexTest();
     return 0;
 }

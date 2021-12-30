@@ -61,7 +61,7 @@ void deinitializeGraph(undirectedGraph operatingGraph) {
 // Добавление вершины
 int addVertex(undirectedGraph operatingGraph) {
     int numberOfVertices = operatingGraph->numberOfVertices + 1;
-    int **matrix = (int **) realloc(operatingGraph->matrix, numberOfVertices * sizeof(int *));
+    int **matrix = (int **) malloc(numberOfVertices * sizeof(int *));
 
     for(int i = 0; i < numberOfVertices; i++) {
         matrix[i] = (int *) malloc(numberOfVertices * sizeof(int));
@@ -82,20 +82,10 @@ int addVertex(undirectedGraph operatingGraph) {
 
 // Удаление вершины
 void deleteVertex(undirectedGraph operatingGraph, int vertex) {
-    int **matrix = (int **) malloc(operatingGraph->numberOfVertices * sizeof(int *));
-    int shift = 0;
-
     for (int i = 0; i < operatingGraph->numberOfVertices; i++) {
-        matrix[i] = (int *) malloc(operatingGraph->numberOfVertices * sizeof(int));
+        deleteEdge(vertex, i, operatingGraph);
+        deleteEdge(i, vertex, operatingGraph);
     }
-
-    for (int i = 0; i < operatingGraph->numberOfVertices; i++) {
-        matrix[vertex][i] = 0;
-        matrix[i][vertex] = 0;
-    }
-
-    deinitializeMatrix(operatingGraph->matrix, operatingGraph->numberOfVertices);
-    operatingGraph->matrix = matrix;
 }
 
 // Вывод определенного графа в виде матрицы
@@ -108,7 +98,11 @@ void graphToFile(undirectedGraph operatingGraph, FILE *outFile) {
     }
 
     fprintf(outFile, "\n");
-    fprintf(outFile, "  |---|---|---|---|---|");
+    fprintf(outFile, "  ");
+    for (int i = 0; i < operatingGraph->numberOfVertices; i++) {
+        fprintf(outFile, "|---");
+    }
+    fprintf(outFile, "|");
     fprintf(outFile, "\n");
 
     for (int i = 0; i < operatingGraph->numberOfVertices; i++) {
@@ -130,14 +124,25 @@ int** getMatrix(undirectedGraph operatingGraph) {
     return operatingGraph->matrix;
 }
 
-int* shortestPath(int startingVertex, int destinationVertex, undirectedGraph graph) {
+
+void printShortestPath(int startingVertex, int destinationVertex, undirectedGraph graph, FILE *outFile) {
     int* result = (int*) malloc(graph->numberOfVertices * sizeof(int*));
-    printf("%d;", sizeof(result));
-    printf("\n");
+    for (int i = 0; i < graph->numberOfVertices; i++) {
+        result[i] = INT_MIN;
+    }
 
     int* journey = (int*) malloc(graph->numberOfVertices * sizeof(int*));
+    for (int i = 0; i < graph->numberOfVertices; i++) {
+        journey[i] = INT_MIN;
+    }
     dfs(startingVertex, destinationVertex, graph, journey, result, 0);
-    return result;
+
+    fprintf(outFile, "\n");
+    fprintf(outFile, "Shortest path from %d to %d is: ", startingVertex, destinationVertex);
+    for (int i = 0; i < graph->numberOfVertices; i++) {
+        if (result[i] != INT_MIN) fprintf(outFile, "%d ", result[i]);
+        else return;
+    }
 }
 
 void dfs(int startingVertex, int destinationVertex, undirectedGraph graph, int* journey, int* result, int k) {
@@ -146,16 +151,29 @@ void dfs(int startingVertex, int destinationVertex, undirectedGraph graph, int* 
     if (startingVertex != destinationVertex) {
 
         for (int i = 0; i < graph->numberOfVertices; i++) {
-            bool stop = false;
+            for (int j = k + 1; j < graph->numberOfVertices - k; j++) {
+                journey[j] = INT_MIN;
+            }
+                bool stop = false;
             for (int j = 0; j < graph->numberOfVertices; j++) {
                 if (graph->matrix[startingVertex][i] != 1 || i == journey[j]) stop = true;
             }
+
             if (!stop) dfs(i, destinationVertex, graph, journey, result, k + 1);
         }
     }
 
     if (startingVertex == destinationVertex) {
-
+        bool change = false;
+        for (int i = 0; i < graph->numberOfVertices; i++) {
+            if (result[0] == INT_MIN && journey[i] != INT_MIN ||
+            result[i] > -1 && journey[i] == INT_MIN) change = true;
+        }
+        if (change) {
+            for (int i = 0; i < graph->numberOfVertices; i++) {
+                result[i] = journey[i];
+            }
+        }
     }
 }
 
