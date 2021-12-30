@@ -139,11 +139,18 @@ void printShortestPath(int startingVertex, int destinationVertex, undirectedGrap
 
     fprintf(outFile, "\n");
     fprintf(outFile, "Shortest path from %d to %d is: ", startingVertex, destinationVertex);
+    bool flag = false;
     for (int i = 0; i < graph->numberOfVertices; i++) {
-        if (result[i] != INT_MIN) fprintf(outFile, "%d ", result[i]);
-        else return;
+        if (result[i] == destinationVertex) flag = true;
     }
+    if (flag) {
+        for (int i = 0; i < graph->numberOfVertices; i++) {
+            if (result[i] != INT_MIN) fprintf(outFile, "%d ", result[i]);
+            else return;
+        }
+    } else  fprintf(outFile, "destination vertex is not reachable");
 }
+
 
 void dfs(int startingVertex, int destinationVertex, undirectedGraph graph, int* journey, int* result, int k) {
     journey[k] = startingVertex;
