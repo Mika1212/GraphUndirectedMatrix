@@ -19,5 +19,6 @@ void deinitializeMatrix(int **matrix, int numberOfVertices); //деинициа�
 void graphToFile(undirectedGraph operatingGraph, FILE *outFile); //печать содержимого графа в файл
 int getNumberOfVertices(undirectedGraph operatingGraph); //получение размерности графа
 int** getMatrix(undirectedGraph operatingGraph); //получение матрицы графа
-void printShortestPath(int startingVertex, int destinationVertex, undirectedGraph graph, FILE *outFile);
+int* findShortestPath(int startingVertex, int destinationVertex, undirectedGraph graph, FILE *outFile);
 void dfs(int startingVertex, int destinationVertex, undirectedGraph graph, int* journey, int* result, int k);
+void printShortestPath(int* result, int startingVertex, int destinationVertex, FILE *outFile);

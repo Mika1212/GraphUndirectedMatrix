@@ -10,7 +10,7 @@
  3) data входные занчения переходов по номерам вершин;
  4) outputFile выходные значения, итоговая матрица;
  5) -t тестирование;
- 6) -f (номер стартовой вершины) (номер конечной вершины) поиск кратчайшего пути до всех вершин;
+ 6) -f (номер стартовой вершины) (номер конечной вершины) поиск кратчайшего пути до заданной вершины;
  5 и 6 пункты опциональны и используется либо один, либо другой, нельзя использовать сразу оба.
  */
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
         int endingVertex;
         sscanf(argv[7], "%d", &endingVertex);
         if (startingVertex < numberOfVertices && endingVertex < numberOfVertices) {
-            printShortestPath(startingVertex, endingVertex, operatingGraph, outFile);
+            findShortestPath(startingVertex, endingVertex, operatingGraph, outFile);
         } else {
             printf("\nOops, something went wrong with arguments\n");
             return -1;

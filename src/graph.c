@@ -3,7 +3,7 @@
 // Создание графа
 undirectedGraph generateGraph(int numberOfVertices) {
     undirectedGraph operatingGraph;
-    operatingGraph = malloc(sizeof(*operatingGraph));
+    operatingGraph = malloc(sizeof(struct GraphStructure));
     operatingGraph->numberOfVertices = numberOfVertices;
     operatingGraph->matrix = (int **) malloc(numberOfVertices * sizeof(int *));
 
@@ -63,16 +63,11 @@ void deinitializeGraph(undirectedGraph operatingGraph) {
 // Добавление вершины
 int addVertex(undirectedGraph operatingGraph) {
     int numberOfVertices = operatingGraph->numberOfVertices + 1;
-    int **matrix = (int **) malloc(numberOfVertices * sizeof(int *));
-
-    for(int i = 0; i < numberOfVertices; i++) {
-        matrix[i] = (int *) malloc(numberOfVertices * sizeof(int));
-    }
+    int **matrix = (int **) realloc(operatingGraph->matrix, numberOfVertices * numberOfVertices * sizeof(int *));
 
     for (int i = 0; i < numberOfVertices; i++) {
         for (int j = 0; j < numberOfVertices; j++) {
             if ((j == numberOfVertices - 1) || (i == numberOfVertices - 1)) matrix[i][j] = 0;
-            else matrix[i][j] = operatingGraph->matrix[i][j];
         }
     }
 
@@ -125,8 +120,8 @@ int** getMatrix(undirectedGraph operatingGraph) {
     return operatingGraph->matrix;
 }
 
-// Вывод в файл самого короткого пути из одной заданной точки в другую
-void printShortestPath(int startingVertex, int destinationVertex, undirectedGraph graph, FILE *outFile) {
+// Поиск самого короткого пути из одной заданной точки в другую
+int* findShortestPath(int startingVertex, int destinationVertex, undirectedGraph graph, FILE *outFile) {
     int* result = (int*) malloc(graph->numberOfVertices * sizeof(int*));
     int* journey = (int*) malloc(graph->numberOfVertices * sizeof(int*));
     for (int i = 0; i < graph->numberOfVertices; i++) {
@@ -136,19 +131,34 @@ void printShortestPath(int startingVertex, int destinationVertex, undirectedGrap
 
     dfs(startingVertex, destinationVertex, graph, journey, result, 0);
 
-    fprintf(outFile, "\n");
-    fprintf(outFile, "Shortest path from %d to %d is: ", startingVertex, destinationVertex);
-
     bool flag = false;
     for (int i = 0; i < graph->numberOfVertices; i++) {
         if (result[i] == destinationVertex) flag = true;
     }
-    if (flag) {
+    if (!flag) {
         for (int i = 0; i < graph->numberOfVertices; i++) {
-            if (result[i] != INT_MIN) fprintf(outFile, "%d ", result[i]);
-            else return;
+            result[i] = -1;
         }
-    } else  fprintf(outFile, "destination vertex is not reachable");
+    }
+    printShortestPath(result, startingVertex, destinationVertex, outFile);
+    return result;
+}
+
+//Вывод в файл самого короткого пути из одной заданной точки в другую
+void printShortestPath(int* result, int startingVertex, int destinationVertex, FILE *outFile) {
+    if (result[0] == -1) {
+        fprintf(outFile, "Can't reach vertex %d from %d", destinationVertex, startingVertex);
+        return;
+    }
+
+    int i = 0;
+    fprintf(outFile, "\n");
+    fprintf(outFile, "Shortest path from %d to %d is: ", startingVertex, destinationVertex);
+
+    while (result[i] != INT_MIN) {
+        fprintf(outFile, "%d ", result[i]);
+        i++;
+    }
 }
 
 // Поиск в глубину
