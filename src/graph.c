@@ -147,7 +147,7 @@ int* findShortestPath(int startingVertex, int destinationVertex, undirectedGraph
 //Вывод в файл самого короткого пути из одной заданной точки в другую
 void printShortestPath(int* result, int startingVertex, int destinationVertex, FILE *outFile) {
     if (result[0] == -1) {
-        fprintf(outFile, "Can't reach vertex %d from %d", destinationVertex, startingVertex);
+        fprintf(outFile, "Can't reach vertex %d from vertex %d", destinationVertex, startingVertex);
         return;
     }
 
@@ -155,10 +155,10 @@ void printShortestPath(int* result, int startingVertex, int destinationVertex, F
     fprintf(outFile, "\n");
     fprintf(outFile, "Shortest path from %d to %d is: ", startingVertex, destinationVertex);
 
-    while (result[i] != INT_MIN) {
+    do {
         fprintf(outFile, "%d ", result[i]);
         i++;
-    }
+    } while (result[i] != destinationVertex);
 }
 
 // Поиск в глубину
