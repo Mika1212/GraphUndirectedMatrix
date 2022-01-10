@@ -57,6 +57,8 @@ void addVertexTest() {
     deinitializeGraph(graph);
 }
 
+
+
 void deleteVertexTest() {
     int size = 4;
     undirectedGraph graph = generateGraph(size);
@@ -73,15 +75,24 @@ void deleteVertexTest() {
     deinitializeGraph(graph);
 }
 
+void stressTestAddVertex() {
+    undirectedGraph graph = generateGraph(4);
+    for (int i = 0; i< 100; i++)
+    addVertex(graph);
+
+}
+
 void startTests() {
     createGraphTest();
     addEdgeTest();
     deleteEdgeTest();
     addVertexTest();
     deleteVertexTest();
+    stressTestAddVertex();
 }
+
 
 int main() {
     startTests();
-    return 0;
+    return 100;
 }

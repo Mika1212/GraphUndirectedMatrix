@@ -65,13 +65,15 @@ int addVertex(undirectedGraph operatingGraph) {
     int numberOfVertices = operatingGraph->numberOfVertices + 1;
     operatingGraph->numberOfVertices = numberOfVertices;
 
-    operatingGraph->matrix = (int **) realloc(operatingGraph->matrix, numberOfVertices * numberOfVertices * sizeof(int *));
+    operatingGraph->matrix = (int **) realloc(operatingGraph->matrix, numberOfVertices * sizeof(int *));
+    for (int i = 0; i < numberOfVertices - 1; i++) {
+        operatingGraph->matrix[i] = (int *) realloc(operatingGraph->matrix[i], numberOfVertices * sizeof(int *));
+    }
     operatingGraph->matrix[numberOfVertices - 1] = (int *) malloc(numberOfVertices * sizeof(int));
 
     for (int i = 0; i < numberOfVertices; i++) {
-        for (int j = 0; j < numberOfVertices; j++) {
-            if ((j == numberOfVertices - 1) || (i == numberOfVertices - 1)) operatingGraph->matrix[i][j] = 0;
-        }
+        operatingGraph->matrix[i][numberOfVertices - 1] = 0;
+        operatingGraph->matrix[numberOfVertices - 1][i] = 0;
     }
 
     return numberOfVertices;

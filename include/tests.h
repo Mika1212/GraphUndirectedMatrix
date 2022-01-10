@@ -5,4 +5,5 @@ void deleteEdgeTest();
 void addVertexTest();
 void deleteVertexTest();
 int startTests();
+void stressTestAddVertex();
 int main();
