@@ -23,6 +23,7 @@ void addEdgeTest() {
     assert(graph->matrix[2][3] == 1);
     assert(graph->matrix[3][2] == 1);
     deinitializeGraph(graph);
+
 }
 
 void deleteEdgeTest() {
@@ -38,6 +39,7 @@ void deleteEdgeTest() {
     assert(graph->matrix[2][3] == 1);
     assert(graph->matrix[3][2] == 1);
     deinitializeGraph(graph);
+
 }
 
 void addVertexTest() {
@@ -71,13 +73,12 @@ void deleteVertexTest() {
     deinitializeGraph(graph);
 }
 
-int startTests() {
+void startTests() {
     createGraphTest();
     addEdgeTest();
     deleteEdgeTest();
     addVertexTest();
     deleteVertexTest();
-    return 0;
 }
 
 int main() {

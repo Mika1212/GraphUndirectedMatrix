@@ -63,15 +63,23 @@ void deinitializeGraph(undirectedGraph operatingGraph) {
 // Добавление вершины
 int addVertex(undirectedGraph operatingGraph) {
     int numberOfVertices = operatingGraph->numberOfVertices + 1;
-    operatingGraph->matrix = (int **) realloc(operatingGraph->matrix, numberOfVertices * numberOfVertices * sizeof(int *));
+    operatingGraph->numberOfVertices = numberOfVertices;
+
+    operatingGraph->matrix = realloc(operatingGraph->matrix, 1000 * sizeof(int *));
+
 
     for (int i = 0; i < numberOfVertices; i++) {
-        for (int j = 0; j < numberOfVertices; j++) {
-            if ((j == numberOfVertices - 1) || (i == numberOfVertices - 1)) operatingGraph->matrix[i][j] = 0;
-        }
-    }
 
-    operatingGraph->numberOfVertices = numberOfVertices;
+        for (int j = 0; j < numberOfVertices; j++) {
+            printf("i = %d, j = %d, MATRIX = %d\n", i, j, operatingGraph->matrix[i][j]);
+
+            if ((j == numberOfVertices - 1) || (i == numberOfVertices - 1)) operatingGraph->matrix[i][j] = 0;
+
+        }
+
+    }
+    printf("%d", 1);
+
     return numberOfVertices;
 }
 
@@ -139,6 +147,7 @@ int* findShortestPath(int startingVertex, int destinationVertex, undirectedGraph
             result[i] = -1;
         }
     }
+
     printShortestPath(result, startingVertex, destinationVertex, outFile);
     return result;
 }
@@ -157,7 +166,7 @@ void printShortestPath(int* result, int startingVertex, int destinationVertex, F
     do {
         fprintf(outFile, "%d ", result[i]);
         i++;
-    } while (result[i] != destinationVertex);
+    } while (result[i - 1] != destinationVertex);
 }
 
 // Поиск в глубину
@@ -170,7 +179,8 @@ void dfs(int startingVertex, int destinationVertex, undirectedGraph graph, int* 
             for (int j = k + 1; j < graph->numberOfVertices - k; j++) {
                 journey[j] = INT_MIN;
             }
-                bool stop = false;
+
+            bool stop = false;
             for (int j = 0; j < graph->numberOfVertices; j++) {
                 if (graph->matrix[startingVertex][i] != 1 || i == journey[j]) stop = true;
             }

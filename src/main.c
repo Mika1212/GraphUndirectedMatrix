@@ -9,9 +9,7 @@
  2) numberOfEdges количетсво переходов из одной вершины в другую (граф ненаправленный, следовательно движение в обе стороны);
  3) data входные занчения переходов по номерам вершин;
  4) outputFile выходные значения, итоговая матрица;
- 5) -t тестирование;
- 6) -f (номер стартовой вершины) (номер конечной вершины) поиск кратчайшего пути до заданной вершины;
- 5 и 6 пункты опциональны и используется либо один, либо другой, нельзя использовать сразу оба.
+ 5) -f (номер стартовой вершины) (номер конечной вершины) поиск кратчайшего пути до заданной вершины;
  */
 
 int main(int argc, char *argv[]) {
@@ -20,15 +18,11 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    if ((argc == 6) && (*argv[5] == *"-t")) {
-        startTests();
-        return 0;
-    }
-
     int numberOfVertices, numberOfEdges;
     sscanf(argv[1], "%d", &numberOfVertices);
     sscanf(argv[2], "%d", &numberOfEdges);
     numberOfEdges *= 2;
+
 
     int *edges = (int *) malloc(numberOfEdges * sizeof(int));
     FILE *data;
