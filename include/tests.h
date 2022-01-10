@@ -4,4 +4,4 @@ void addEdgeTest();
 void deleteEdgeTest();
 void addVertexTest();
 void deleteVertexTest();
-int StartTests();
+int startTests();

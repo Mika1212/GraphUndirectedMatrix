@@ -71,11 +71,16 @@ void deleteVertexTest() {
     deinitializeGraph(graph);
 }
 
-int StartTests() {
+int startTests() {
     createGraphTest();
     addEdgeTest();
     deleteEdgeTest();
     addVertexTest();
     deleteVertexTest();
+    return 0;
+}
+
+int main() {
+    startTests();
     return 0;
 }

@@ -63,15 +63,14 @@ void deinitializeGraph(undirectedGraph operatingGraph) {
 // Добавление вершины
 int addVertex(undirectedGraph operatingGraph) {
     int numberOfVertices = operatingGraph->numberOfVertices + 1;
-    int **matrix = (int **) realloc(operatingGraph->matrix, numberOfVertices * numberOfVertices * sizeof(int *));
+    operatingGraph->matrix = (int **) realloc(operatingGraph->matrix, numberOfVertices * numberOfVertices * sizeof(int *));
 
     for (int i = 0; i < numberOfVertices; i++) {
         for (int j = 0; j < numberOfVertices; j++) {
-            if ((j == numberOfVertices - 1) || (i == numberOfVertices - 1)) matrix[i][j] = 0;
+            if ((j == numberOfVertices - 1) || (i == numberOfVertices - 1)) operatingGraph->matrix[i][j] = 0;
         }
     }
 
-    operatingGraph->matrix = matrix;
     operatingGraph->numberOfVertices = numberOfVertices;
     return numberOfVertices;
 }

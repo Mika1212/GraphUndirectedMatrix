@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     }
 
     if ((argc == 6) && (*argv[5] == *"-t")) {
-        StartTests();
+        startTests();
         return 0;
     }
 
